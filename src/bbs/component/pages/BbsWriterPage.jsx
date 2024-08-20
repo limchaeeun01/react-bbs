@@ -35,7 +35,7 @@ function BbsWriterPage(props) {
         setContent(e.target.value);
     }
 
-    const cancleHandler = () => {
+    const cancleHandler = () => { 
         alert("글 작성을 취소하고 홈으로 이동합니다.")
         navigate("/");
     }

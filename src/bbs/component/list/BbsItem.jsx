@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import {useNavigate } from "react-router-dom";
+
 const Wrapper = styled.div`
     width: calc(100% - 32px);
     padding: 16px;
@@ -20,10 +22,16 @@ const TitleText = styled.p`
 `;
 
 function BbsItem(props){
+    const navigate = useNavigate();
+
+    const moveHandler = (id) => {
+        navigate(`bbs-view/${id}`);
+    }
+
     return(
-        <Wrapper>
+        <Wrapper onClick={() => moveHandler(props.data.id)}>
             <TitleText>
-                {props.title}
+                {props.data.title}
             </TitleText>
         </Wrapper>
     );

@@ -20,7 +20,8 @@ function BbsList(props){
             {props.data.map((bbs) => {
                 return(
                     <BbsItem
-                            title={bbs.title}/>
+                        key={bbs.id}
+                        data={bbs}/>
                 );
             })}
         </Wrapper>

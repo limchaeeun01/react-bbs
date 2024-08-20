@@ -50,9 +50,7 @@ function HomePage(){
                     onClick={() => {
                         navigate("bbs-write");
                     }}/>
-                {/*
-                BbList에서 map 함수 이용해서 props 데이터 전달 후 BbsItem 화면 구현 
-                 */}
+                <p/>
                 <BbsList
                     data={lst}/>
             </Container>
