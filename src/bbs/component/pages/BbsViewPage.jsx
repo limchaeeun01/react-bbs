@@ -3,7 +3,8 @@ import Button from "../ui/Button";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+//import axios from "axios";
+import api from "../api/axios";
 import TextInput from "../ui/TextInput";
 import CommentList from "../list/CommentList";
 import BbsUpdatePage from "./BbsUpdatePage";
@@ -62,8 +63,7 @@ function BbsViewpage(props) {
 
     const getcomt = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/comments?bbsId=${id}`
-            );
+            const response = await api.get(`bbs/comment/getComment/${id}`);
             setLst(response.data);
             console.log("debug >>> axios comment get OK!!, ", response.data);
         } catch (err) {
@@ -71,26 +71,62 @@ function BbsViewpage(props) {
         }
     }
 
+    /*
     const getBbs = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/bbs/${id}`);
+            const response = await api.get(`bbs/${id}`);
             console.log("debug >>> axios get OK!!, ", response.data);
             setBbs(response.data);
         } catch (err) {
             console.log(err);
         }
     }
+    */
+
+    const getBbs = async () => {
+        try {
+            const response = await api.get(`bbs/view/${id}`);
+            console.log("debug >>> axios get OK!!, ", response.data);
+
+            setBbs(response.data);
+            setComment(response.data.comment)
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    // const commentSave = async (bbsId, comment) => {
+    //     if (comment !== '') {
+    //         const data = {
+    //             id: Date.now(),           
+    //             comment: comment,          
+    //             bbsId: parseInt(bbsId, 10) 
+    //         };
+        
+    //         try {
+    //             const response = await api.post('comments', data);
+    //             console.log("debug >>> axios post response data, ", response);
+    //             alert("코멘트 작성을 완료하였습니다.");
+    //             setComment('');
+    //             getcomt(); // 코멘트를 저장한 후 리스트를 업데이트
+    //         } catch (err) {
+    //             console.log(err);
+    //         }
+    //     } else {
+    //         alert("코멘트를 한 자 이상 입력해주세요.");
+    //     }
+    // }
 
     const commentSave = async (bbsId, comment) => {
-        if (comment !== '') {
-            const data = {
-                id: Date.now(),           
-                comment: comment,          
+        console.log("debug >>> comment before sending: ", comment);
+        if (comment.trim() !== '') {
+            const data = {        
+                content: comment,          
                 bbsId: parseInt(bbsId, 10) 
             };
         
             try {
-                const response = await axios.post('http://localhost:8000/comments', data);
+                const response = await api.post('bbs/comment/save', data);
                 console.log("debug >>> axios post response data, ", response);
                 alert("코멘트 작성을 완료하였습니다.");
                 setComment('');
@@ -102,12 +138,31 @@ function BbsViewpage(props) {
             alert("코멘트를 한 자 이상 입력해주세요.");
         }
     }
+    
+/*
+    const onDelete = async(id) => {
+        try {
+            await api.delete(`bbs/${id}`);
+            alert("게시글을 삭제하였습니다.");
+            navigate('/');
+        } catch (err) {
+            console.log(err);
+        }
+    }
+        */
 
     const onDelete = async(id) => {
         try {
-            await axios.delete(`http://localhost:8000/bbs/${id}`);
-            alert("게시글을 삭제하였습니다.");
-            navigate('/');
+            console.log("debug >>> comments length, ", lst.length);
+
+            if(lst.length > 0){
+                alert("게시글을 삭제할 수 없습니다.");
+            }else{
+                await api.delete(`bbs/delete/${id}`);
+                alert("게시글을 삭제하였습니다.");
+                navigate('/');
+            }
+
         } catch (err) {
             console.log(err);
         }
@@ -125,7 +180,10 @@ function BbsViewpage(props) {
                     <TitleText>{bbs.title}</TitleText>
                     <ContentText>{bbs.content}</ContentText>
                     <Button title="게시글 수정하기"
-                            onClick={() => navigate(`/bbs-update/${id}`)}/>
+                            onClick={() => {
+                                window.confirm("수정 페이지로 이동하시겠습니까?")
+                                navigate(`/bbs-update/${id}`)}
+                                }/>
                     &nbsp;&nbsp;&nbsp;
                     <Button title="게시글 삭제하기"
                             onClick={() => onDelete(bbs.id)}/>

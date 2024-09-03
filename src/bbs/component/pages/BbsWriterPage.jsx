@@ -3,7 +3,8 @@ import TextInput from "../ui/TextInput";
 import React, { useState } from "react";
 import Button from "../ui/Button";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+//import axios from "axios";
+import api from "../api/axios";
 
 const Wrapper = styled.div`
     padding: 16px;
@@ -40,6 +41,7 @@ function BbsWriterPage(props) {
         navigate("/");
     }
 
+    /*
     const bbsSave = async(title, content) => {
         const data = {
             id : Date.now(),
@@ -47,10 +49,33 @@ function BbsWriterPage(props) {
             content : content
         };
         try{
-            const response = await axios.post('http://localhost:8000/bbs', data);
+            const response = await api.post('bbs', data);
             console.log("debug >>> axios post response data, ", response);
             alert("글 작성을 완료하고 홈으로 이동합니다.");
             navigate("/");
+        }catch(err){
+            console.log(err);
+        }
+
+
+    }
+        */
+
+    const bbsSave = async(title, content) => {
+        const data = {
+            title : title,
+            content : content
+        };
+        try{
+            const response = await api.post('bbs/save', data);
+            console.log("debug >>> axios post response data, ", response);
+            if(response.status == 204){
+                alert("글 작성을 완료하고 홈으로 이동합니다.");
+                navigate("/");
+            }else{
+                alert("데이터 저장 오류 발생");
+            }
+            
         }catch(err){
             console.log(err);
         }

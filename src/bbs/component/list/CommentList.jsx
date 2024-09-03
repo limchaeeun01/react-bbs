@@ -31,7 +31,7 @@ function CommentList(props) {
                 props.data.map((comment) => (
                     <CommentItem
                         key={comment.id}
-                        data={comment.comment}
+                        data={comment.content} //원래 comment였음
                     />
                 ))
             ) : (

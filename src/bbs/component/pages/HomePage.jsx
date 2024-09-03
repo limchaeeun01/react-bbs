@@ -3,7 +3,8 @@ import Button from "../ui/Button";
 import { useNavigate } from "react-router-dom";
 import BbsList from "../list/BbsList";
 import { useEffect, useState } from "react";
-import axios from "axios";
+//import axios from "axios";
+import api from "../api/axios";
 
 const Wrapper = styled.div`
     padding: 16px;
@@ -23,18 +24,20 @@ const Container = styled.div`
     }
 `;
 
-function HomePage(){
+//json ver
+    function HomePage(){
 
-    const navigate = useNavigate();
-    const [lst, setLst] = useState([]);
+        const navigate = useNavigate();
+        const [lst, setLst] = useState([]);
 
-    useEffect(() => {
-        getlst();
+        useEffect(() => {
+            getlst();
     }, [] );
 
+//spring
     const getlst = async() => {
         try{
-            const response = await axios.get('http://localhost:8000/bbs');
+            const response = await api.get('bbs/index');
             setLst(response.data);
             console.log("debug >>> axios get OK!!, ", response.data);
         }catch(err){

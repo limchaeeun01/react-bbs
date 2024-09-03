@@ -24,7 +24,12 @@ const TitleText = styled.p`
 function BbsItem(props){
     const navigate = useNavigate();
 
+    // const moveHandler = (id) => {
+    //     navigate(`bbs-view/${id}`);
+    // }
+
     const moveHandler = (id) => {
+        console.log("debug >>> button click");
         navigate(`bbs-view/${id}`);
     }
 

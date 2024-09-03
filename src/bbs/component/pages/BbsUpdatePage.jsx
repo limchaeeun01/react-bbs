@@ -3,7 +3,9 @@ import TextInput from "../ui/TextInput";
 import React, { useState, useEffect } from "react";
 import Button from "../ui/Button";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+//import axios from "axios";
+import api from "../api/axios";
+import _ from 'lodash';
 
 const Wrapper = styled.div`
     padding: 16px;
@@ -45,10 +47,10 @@ function BbsUpdatePage(props){
         alert("글 수정을 취소합니다.")
         navigate("/");
     }
-
+/*
     const getBbs = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/bbs/${id}`);
+            const response = await api.get(`bbs/${id}`);
             console.log("debug >>> axios get OK!!, ", response.data);
             setTitle(response.data.title); 
             setContent(response.data.content); 
@@ -57,6 +59,37 @@ function BbsUpdatePage(props){
             console.log(err);
         }
     }
+        */
+
+    const getBbs = async () => {
+        try {
+            const response = await api.get(`bbs/view/${id}`);
+            console.log("debug >>> axios get OK!!, ", response.data);
+            setTitle(response.data.title); 
+            setContent(response.data.content); 
+            setIsLoaded(true);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+/*
+    const bbsUpdate = async(title, content) => {
+        const data = {
+            title : title,
+            content : content
+        };
+        try{
+            const response = await api.put(`bbs/${id}`, data);
+            console.log("debug >>> axios post response data, ", response);
+            alert("글 작성을 완료하고 홈으로 이동합니다.");
+            navigate("/");
+        }catch(err){
+            console.log(err);
+        }
+
+
+    }
+        */
 
     const bbsUpdate = async(title, content) => {
         const data = {
@@ -64,7 +97,7 @@ function BbsUpdatePage(props){
             content : content
         };
         try{
-            const response = await axios.put(`http://localhost:8000/bbs/${id}`, data);
+            const response = await api.put(`bbs/update/${id}`, data);
             console.log("debug >>> axios post response data, ", response);
             alert("글 작성을 완료하고 홈으로 이동합니다.");
             navigate("/");
