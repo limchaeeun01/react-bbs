@@ -48,11 +48,19 @@ const Container = styled.div`
     return(
         <Wrapper>
             <Container>
-                <Button
-                    title="글 작성하기"
-                    onClick={() => {
-                        navigate("bbs-write");
-                    }}/>
+                <div>
+                    <Button
+                        title="글 작성하기"
+                        onClick={() => {
+                            navigate("bbs-write");
+                        }}/>
+                        &nbsp;&nbsp;&nbsp;
+                    <Button
+                        title="Forecast"
+                        onClick={() => {
+                            navigate("forecast")
+                        }}/>
+                </div>
                 <p/>
                 <BbsList
                     data={lst}/>
