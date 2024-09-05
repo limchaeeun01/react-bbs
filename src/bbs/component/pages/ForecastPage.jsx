@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../api/axios";
 import TextInput from "../ui/TextInput";
+import ForecastList from "../list/forecast/ForecastList";
 
 const Wrapper = styled.div`
     padding: 16px;
@@ -41,16 +42,21 @@ function ForecastPage(){
         setBeachNum(e.target.value);
     }
     const handleSearchClick = () => {
-        getData();
+        if (baseDate && baseTime && beachNum) {
+            getData();
+        } else {
+            alert("모든 입력 필드를 채워주세요.");
+        }
         //setShowList(true); 
     };
 
     const getData = async() => {
-        try{
-            const response = await api.get('/api/forcast?base_time=1100&base_date=20240904&beach_num=1');
+        try {
+            // 사용자 입력값을 기반으로 URL을 생성
+            const response = await api.get(`/api/forcast?base_time=${baseTime}&base_date=${baseDate}&beach_num=${beachNum}`);
             setData(response.data);
             console.log("debug >>> axios get OK!!, ", response.data);
-        }catch(err){
+        } catch (err) {
             console.log(err);
         }
     }
@@ -87,6 +93,10 @@ function ForecastPage(){
                 <Button title="조회하기"
                         onClick={handleSearchClick}/>
 
+                <p/>
+                <p/>
+
+                <ForecastList data={data} />
             
             </Container>
         </Wrapper>

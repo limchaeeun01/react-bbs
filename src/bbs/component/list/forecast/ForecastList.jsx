@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import ForecastItem from "./ForecastItem";
 
 const Wrapper = styled.div`
     display: flex;
@@ -13,13 +14,13 @@ const Wrapper = styled.div`
 `;
 
 
-function ForecastList(props){
+function ForecastList({data}){
     return(
         <Wrapper>
-            {props.data.map((forecast) => {
+            {data.map((forecast, index) => {
                 return(
                     <ForecastItem
-                        key={forecast.id}
+                        key={index}
                         data={forecast}/>
                 );
             })}

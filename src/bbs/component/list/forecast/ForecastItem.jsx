@@ -17,23 +17,25 @@ const Wrapper = styled.div`
     }
 `;
 const TitleText = styled.p`
-    font-size: 20px;
+    font-size: 28px;
     font-weight: 500;
 `;
+const ContentText = styled.p`
+    font-size: 20px;
+    line-height: 32px;
+    white-space: pre-wrap;
+`;
 
-function ForecastItem(props){
+function ForecastItem({data}){
 
     return(
         <Wrapper>
             <TitleText>
-                {`카테고리: ${data.category} (${data.fcstDate} ${data.fcstTime})`}
+                {`카테고리: ${data.category}`}
             </TitleText>
-            <DescriptionText>
+            <ContentText>
                 {`예보 값: ${data.fcstValue}`}
-            </DescriptionText>
-            <DescriptionText>
-                {`위치: (${data.nx}, ${data.ny})`}
-            </DescriptionText>
+            </ContentText>
         </Wrapper>
     );
 
